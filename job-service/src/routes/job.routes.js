@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/job.controller');
+const { authenticate, optionalAuth } = require('../middleware/auth');
+router.get('/', optionalAuth, ctrl.getJobs);
+router.get('/applications', authenticate, ctrl.getMyApplications);
+router.get('/:id', optionalAuth, ctrl.getJob);
+router.post('/:id/apply', authenticate, ctrl.applyJob);
+router.patch('/applications/:appId', authenticate, ctrl.updateApplicationStatus);
+module.exports = router;

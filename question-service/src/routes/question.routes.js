@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/question.controller');
+router.get('/', ctrl.getQuestions);
+router.get('/categories', ctrl.getCategories);
+router.get('/random', ctrl.getRandomQuestion);
+router.get('/:id', ctrl.getQuestion);
+router.post('/', ctrl.createQuestion);
+router.post('/:id/upvote', ctrl.upvoteQuestion);
+module.exports = router;
