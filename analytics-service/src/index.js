@@ -17,5 +17,14 @@ app.use(cookieParser(process.env.COOKIE_SECRET)); app.use(express.json()); app.u
 app.get('/health', (req,res) => res.json({ status:'ok', service:'analytics-service' }));
 app.use('/api/analytics', authenticate, analyticsRoutes);
 app.use((err, req, res, next) => res.status(err.statusCode||500).json({ success:false, message:err.message||'Error' }));
-async function start() { await connectDB(); await connectRedis(); app.listen(PORT, () => logger.info(`📈 Analytics Service on port ${PORT}`)); }
+async function start()
+{
+  // await connectDB(); 
+  try {
+  await connectDB();
+} catch (err) {
+  console.error('Analytics DB connection failed:', err.message);
+  process.exit(0);
+}
+  await connectRedis(); app.listen(PORT, () => logger.info(`📈 Analytics Service on port ${PORT}`)); }
 start();
